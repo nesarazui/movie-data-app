@@ -1,11 +1,13 @@
-import logo from './logo.svg';
-import './App.css';
-import MovieSearch from './Components/MovieSearch'
+import logo from "./logo.svg";
+import "./App.css";
+import MovieSearch from "./Components/MovieSearch";
+import MovieRatings from "./Components/MovieRatings";
 
 function App() {
   return (
     <div className="App">
-    <MovieSearch />
+      <MovieSearch />
+      <MovieRatings />
     </div>
   );
 }
