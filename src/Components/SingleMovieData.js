@@ -1,16 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Route } from "react-router-dom";
+import { useLocation, useHistory } from "react-router";
+import { Container, Button, Card, ListGroup } from "react-bootstrap";
 
-//This function component receives the data object about the specified movie as props and displays the movie's title, director, release year, and plot.
-//There is also an option to give a 'thumbs up' or 'thumbs down' rating. The rating is coded as either 1 or -1 and sent as a POST request to the backend.
-//Back End/Database summary: The movie rating table will be queried by movie ID: if the movie record does not exist, a new instance will be created and the rating tallied under the appropriate column.
-//If the instance already exists, the value in the appropriate rating column will be incremented by one.
+//This function component receives the movie data object accessed through useLocation(). Using this data object, an axios call is made to the OMDBAPI to retrieve
+//the full data by utilizing an exact title match query. (The data retrieved includes information on the director, plot, etc). This data gets stored under the 'selectedMovie' state,
+//which is then used to render the specfic details about the movie: (title, director, release year, plot, etc).
+//There is also an option to give a 'thumbs up' or 'thumbs down' rating. The rating is coded as upRating/downRating and sent along with the movie object as a POST request to the backend to update the database accordingly.
 const SingleMovieData = (props) => {
-  const selectedMovie = props.selectedMovie;
+  const [selectedMovie, setSelectedMovie] = useState({});
+  const location = useLocation();
+  const history = useHistory();
+  const movieObj = location.state.movieObj;
+  console.log("comments: ", movieObj);
+
+  useEffect(() => {
+    const getFullData = async (movieObj) => {
+      console.log("does this happen first", movieObj);
+      try {
+        const response = await axios.get(
+          `http://www.omdbapi.com/?i=tt3896198&apikey=6befe58e&t=${movieObj.Title}`
+        );
+        const fullMovieData = response.data;
+        setSelectedMovie(fullMovieData);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    getFullData(movieObj);
+  }, []);
 
   const recordRating = async (ratingType) => {
-    //POST request to backend
     try {
       await axios.post("http://localhost:8080/movieData/", {
         ratingType,
@@ -21,28 +41,39 @@ const SingleMovieData = (props) => {
     }
   };
 
+  const returnToSearch = () => {
+    history.goBack();
+  };
+
   return (
-    <div>
-      Full Information About This Movie
-      <div>Title: {selectedMovie.Title}</div>
-      <div>Director {selectedMovie.Director}</div>
-      <div>Release Year: {selectedMovie.Year}</div>
-      <div>Plot {selectedMovie.Plot}</div>
-      <button
+    <Container>
+      <Card>
+        <Card.Header>Movie Details</Card.Header>
+        <ListGroup variant="flush">
+          <ListGroup.Item>Title: {selectedMovie.Title}</ListGroup.Item>
+          <ListGroup.Item>Director: {selectedMovie.Director}</ListGroup.Item>
+          <ListGroup.Item>Release Year: {selectedMovie.Year}</ListGroup.Item>
+          <ListGroup.Item>Plot: {selectedMovie.Plot}</ListGroup.Item>
+        </ListGroup>
+      </Card>
+      <Button
         onClick={() => {
           recordRating("upRatings");
         }}
       >
         Thumbs Up
-      </button>
-      <button
+      </Button>
+      <Button
         onClick={() => {
           recordRating("downRatings");
         }}
       >
         Thumbs Down
-      </button>
-    </div>
+      </Button>
+      <Button variant="outline-success" onClick={returnToSearch}>
+        Return To Search
+      </Button>
+    </Container>
   );
 };
 

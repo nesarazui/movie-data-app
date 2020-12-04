@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Container } from "react-bootstrap";
 import DisplayMovieTitles from "./DisplayMovieTitles";
 import axios from "axios";
 import { debounce } from "lodash";
@@ -37,18 +37,19 @@ const MovieSearch = () => {
 
   //Renders the search bar and calls the DisplayMovieTitles component, passing the titleResults (array of objects) as a prop to the component.
   return (
-    <div>
+    <Container>
       <Form>
-        <Form.Label>Search IMDB</Form.Label>
+        <Form.Label column="lg">Search For A Movie</Form.Label>
         <Form.Control
+          column="lg"
           type="text"
-          placeholder="search"
+          placeholder="Search"
           value={searchState.title}
           onChange={handleChange}
         />
       </Form>
       <DisplayMovieTitles titleResults={searchState.titleResults} />
-    </div>
+    </Container>
   );
 };
 

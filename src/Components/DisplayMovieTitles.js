@@ -1,26 +1,13 @@
-import React, { useState } from "react";
-import SingleMovieData from "./SingleMovieData";
-import axios from "axios";
+import React from "react";
+import { ListGroup } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 //This function component displays the movie search results returned from the OMDB API (data in an array accessed via props). If the array
-//is empty, the display is 'no movie results yet'. Each movie object displayed has an onClick, which calls the getFullData function, which
-//makes an axios call to the OMDB API to search database for that specific title. The query response is an object with full data about the movie, including
-//director, actors, etc. The response data is passed down as props to the SingleMovieData component.
+//is empty, the display is 'no movie results yet'.
+//Each movie displayed is clickable, and navigates to the singleMovie page. The data for that particular movie is passed through Link to as an object.
+
 const DisplayMovieTitles = (props) => {
   const titleResults = props.titleResults;
-  const [selectedMovie, setSelectedMovie] = useState({});
-
-  const getFullData = async (movieObj) => {
-    try {
-      const response = await axios.get(
-        `http://www.omdbapi.com/?i=tt3896198&apikey=6befe58e&t=${movieObj.Title}`
-      );
-      const fullMovieData = response.data;
-      setSelectedMovie(fullMovieData);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <div>
@@ -28,17 +15,21 @@ const DisplayMovieTitles = (props) => {
         <div>
           {titleResults.map((movieObj, idx) => {
             return (
-              <div key={idx} onClick={() => getFullData(movieObj)}>
-                <div>{movieObj.Title}</div>
-                <div>{movieObj.Year}</div>
-                {/* <img src={movieObj.Poster} alt="Movie Poster Thumbnail" /> */}
+              <div key={idx}>
+                <Link to={{ pathname: "/singleMovie", state: { movieObj } }}>
+                  <ListGroup className="my-2">
+                    <ListGroup.Item>
+                      <div>{movieObj.Title}</div>
+                      <div>{movieObj.Year}</div>
+                    </ListGroup.Item>
+                  </ListGroup>
+                </Link>
               </div>
             );
           })}
-          <SingleMovieData selectedMovie={selectedMovie} />
         </div>
       ) : (
-        <div>No Movie Results Yet</div>
+        <div>No Movie Results To Display</div>
       )}
     </div>
   );
