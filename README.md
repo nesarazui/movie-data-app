@@ -8,6 +8,10 @@ Movie information is sourced via the OMDB API. All movie ratings are saved to a 
 Built with React, Node, Express, PostgreSQL and Sequelize.
 
 ## Images
+![MovieSearch](https://github.com/nesarazui/movie-data-app/blob/main/MovieSearch.png) 
+![MovieSearchResults](https://github.com/nesarazui/movie-data-app/blob/main/MovieSearchResults.png)
+![SingleMovieData](https://github.com/nesarazui/movie-data-app/blob/main/SingleMovieData.png)
+![MovieRatings](https://github.com/nesarazui/movie-data-app/blob/main/MovieRatings.png)
 
 ### `npm run build`
 
