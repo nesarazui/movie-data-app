@@ -2,14 +2,10 @@ const express = require("express");
 const { MovieRatings } = require("../../models");
 const router = express.Router();
 
-//All routes to http://localhost:8080/movieData/
-
-//Retrieves all movie ratings records from database
+/* GET Request. Retrieving all records from MovieRatings table */
 router.get("/", async (req, res, next) => {
   try {
-    console.log("definitely hit this route!!");
     let movieRecords = await MovieRatings.findAll();
-    console.log(movieRecords);
     if (movieRecords) {
       res.send(movieRecords);
     } else {
@@ -20,26 +16,23 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-//POST route
-//The movie rating table will be queried by movie ID: if the movie record does not exist, a new instance will be created (with default values for up and down ratings at 0). The value in the appropriate rating column will be incremented by one.
+/* POST Request. Adds incoming data from the client into the MovieRatings table. The Sequelize 'findOrCreate' finder method searches the MovieRatings table by imdbID, returning a promise for an array.
+The first element in the array is the instance. The second, which is not being used, is a boolean (true = instance was not found, and has now been created  OR false = instance was already there). 
+The instance is then updated by incrementing the value in the appropriate column (upRatings or downRatings) by one.*/
 router.post("/", async (req, res, next) => {
   try {
     const { selectedMovie, ratingType } = req.body;
-    console.log("contents of reqbody: ", selectedMovie, ratingType);
-    // findOrCreate returns a promise for an array. first element is the instance, second element
-    // is a boolean (wasCreated): true = instance was just created; false = instance was already there
     const [instance] = await MovieRatings.findOrCreate({
       where: { imdbID: selectedMovie.imdbID },
       defaults: { title: selectedMovie.Title },
     });
-
     let previousVal = instance[ratingType];
     await instance.update({ [ratingType]: previousVal + 1 });
 
     if (instance) {
-      res.send("Received Request to Post Data with rating");
+      res.sendStatus(200);
     } else {
-      res.status(404).send("Not Found");
+      res.sendStatus(400);
     }
   } catch (error) {
     next(error);
