@@ -18,7 +18,7 @@ const SingleMovieData = (props) => {
     const getFullData = async (movieObj) => {
       try {
         const response = await axios.get(
-          `http://www.omdbapi.com/?apikey=6befe58e&i=${movieObj.imdbID}`
+          `https://www.omdbapi.com/?apikey=6befe58e&i=${movieObj.imdbID}`
         );
         const fullMovieData = response.data;
         setSelectedMovie(fullMovieData);

@@ -25,7 +25,7 @@ const MovieSearch = () => {
   const requestOMDBAPI = async (nextValue) => {
     try {
       const response = await axios.get(
-        `http://www.omdbapi.com/?apikey=6befe58e&s=${nextValue}`
+        `https://www.omdbapi.com/?apikey=6befe58e&s=${nextValue}`
       );
       if (response.data.Error) {
         setSearchState({ ...searchState, titleResults: [], title: nextValue });
