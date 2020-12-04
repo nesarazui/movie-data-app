@@ -47,7 +47,6 @@ const MovieSearch = () => {
     []
   );
 
-  //Renders the search bar and calls the DisplayMovieTitles component, passing the titleResults (array of objects) as a prop to the component.
   return (
     <Container>
       <Form>

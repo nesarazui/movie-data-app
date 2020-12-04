@@ -119,7 +119,7 @@ const SingleMovieData = (props) => {
             <b>Cast:</b> {selectedMovie.Actors}
           </ListGroup.Item>
           <ListGroup.Item>
-            <img src={selectedMovie.Poster} alt="img" />
+            <img src={selectedMovie.Poster} alt="poster-img" />
           </ListGroup.Item>
         </ListGroup>
       </Card>

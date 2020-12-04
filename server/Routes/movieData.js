@@ -1,5 +1,5 @@
 const express = require("express");
-const { MovieRatings } = require("../../models");
+const { MovieRatings } = require("../models");
 const router = express.Router();
 
 /* GET Request. Retrieving all records from MovieRatings table */

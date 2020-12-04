@@ -18,7 +18,7 @@ const PORT = 8080;
 const movieData = require("./routes/movieData");
 
 /* Activating the database process within this module */
-const { db } = require("../models");
+const { db } = require("./models");
 
 /* Routes */
 app.get("/", (req, res) => {
