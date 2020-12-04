@@ -31,7 +31,7 @@ const SingleMovieData = (props) => {
 
   const recordRating = async (ratingType) => {
     try {
-      await axios.post("http://localhost:8080/movieData/", {
+      await axios.post("/movieData/", {
         ratingType,
         selectedMovie,
       });

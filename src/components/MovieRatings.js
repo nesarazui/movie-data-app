@@ -10,7 +10,7 @@ const MovieRatings = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/movieData/");
+        const response = await axios.get("/movieData/");
         const movieData = response.data;
         setRatings(movieData);
       } catch (error) {
