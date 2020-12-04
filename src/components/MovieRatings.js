@@ -10,7 +10,9 @@ const MovieRatings = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/movieData/");
+        const response = await axios.get(
+          "https://movie-data-app-server.herokuapp.com/movieData/"
+        );
         const movieData = response.data;
         setRatings(movieData);
       } catch (error) {
