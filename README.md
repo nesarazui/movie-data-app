@@ -15,6 +15,7 @@ This is the client-side repository. The corresponding server-side repository can
 
 # Tech Stack
 Built with React, Node, Express, PostgreSQL and Sequelize.
+Integrated with OMDb API: http://www.omdbapi.com/ 
 
 ## Application Screenshots
 ![MovieSearch](https://github.com/nesarazui/movie-data-app/blob/main/MovieSearch.png) 
